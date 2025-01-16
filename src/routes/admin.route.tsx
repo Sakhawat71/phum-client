@@ -39,12 +39,7 @@ const adminPaths = [
                 name: 'Create Student',
                 path: 'create-student',
                 element: <CreateStudent />,
-            },
-            {
-                name: 'Create Member',
-                path: 'create-member',
-                element: <CreateStudent />,
-            },
+            }
         ],
     },
 ];
@@ -74,7 +69,6 @@ export const adminSidebarItems = adminPaths.reduce((acc: TAdminSidebar[], item) 
 );
 
 // admin route
-
 export const adminRoutes = adminPaths.reduce((acc : TRoute[], item) => {
     if(item.path && item.element){
         acc.push({
