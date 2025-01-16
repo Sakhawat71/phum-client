@@ -15,7 +15,7 @@ const items: MenuProps['items'] = [
         label: 'Profile'
     },
     {
-        key: '3',
+        key: 'User management',
         label: 'User management',
         children: [
             {
