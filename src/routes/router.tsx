@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         children: routeGenerator(facultyPaths)
     },
     {
-        path: '/studentt',
+        path: '/student',
         element: <App />,
         children: routeGenerator(studentPaths)
     },
