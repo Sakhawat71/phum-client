@@ -1,6 +1,7 @@
 import { Layout, Menu } from "antd";
 import { Outlet } from "react-router";
-import { adminSidebarItems } from "../../routes/admin.route";
+import { adminPaths } from "../../routes/admin.route";
+import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 const { Header, Content, Footer, Sider } = Layout;
 // import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
@@ -32,7 +33,7 @@ const MainLayout = () => {
                 >
                     <h1>PH Uni</h1>
                 </div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={adminSidebarItems} />
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={sidebarItemsGenerator(adminPaths)} />
             </Sider>
 
             <Layout>
