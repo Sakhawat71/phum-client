@@ -1,17 +1,6 @@
-import { ReactNode } from "react";
+import { TRoute, TUserPath } from "../types/sidebar.type";
 
-type TRoute = {
-    path: string;
-    element: ReactNode;
-};
-
-type TAdminSidebar = {
-    key: string;
-    label: ReactNode;
-    children?: TAdminSidebar[];
-};
-
-export const routeGenerator = (items ) => {
+export const routeGenerator = (items : TUserPath[] ) => {
     const adminRoutes = items.reduce((acc: TRoute[], item) => {
         if (item.path && item.element) {
             acc.push({
@@ -22,7 +11,7 @@ export const routeGenerator = (items ) => {
         if (item.children) {
             item.children.forEach((child) => {
                 acc.push({
-                    path: child.path,
+                    path: child.path!,
                     element: child.element,
                 })
             })

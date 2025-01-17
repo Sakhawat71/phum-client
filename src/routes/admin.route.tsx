@@ -1,22 +1,12 @@
-import { NavLink } from "react-router";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
-import { ReactNode } from "react";
+import { TUserPath } from "../types/sidebar.type";
 
-type TRoute = {
-    path: string;
-    element: ReactNode;
-};
 
-type TAdminSidebar = {
-    key: string;
-    label: ReactNode;
-    children?: TAdminSidebar[];
-};
 
-export const adminPaths = [
+export const adminPaths : TUserPath[] = [
     {
         name: 'Dashboard',
         path: 'dashboard',
