@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { verifytoken } from "../utils/verifyToken";
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/auth/authSlice";
 
 const Login = () => {
+
+    const dispatch = useAppDispatch();
 
     const {
         register,
@@ -20,9 +24,13 @@ const Login = () => {
         };
         const res = await login(userInfo).unwrap();
         console.log('redux data =>', res.data);
-        
-        const decoded = verifytoken(res.data.accessToken);
-        console.log('decoded data => ', decoded);
+
+        const userData = verifytoken(res.data.accessToken);
+        dispatch(setUser({
+            user: userData,
+            token: res.data.accessToken
+        }));
+        // console.log('decoded data => ', userData);
     };
 
     if (error) {
