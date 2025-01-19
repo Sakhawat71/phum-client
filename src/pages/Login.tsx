@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
+import { verifytoken } from "../utils/verifyToken";
 
 const Login = () => {
 
@@ -12,16 +13,21 @@ const Login = () => {
     const [login, { error }] = useLoginMutation();
 
     const onSubmit = async (data) => {
+
         const userInfo = {
             id: data.id,
             password: data.password,
         };
         const res = await login(userInfo).unwrap();
         console.log('redux data =>', res.data);
+        
+        const decoded = verifytoken(res.data.accessToken);
+        console.log('decoded data => ', decoded);
     };
 
-
-    // console.log('redux error =>', error);
+    if (error) {
+        console.log('redux error =>', error);
+    };
 
     return (
         <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
