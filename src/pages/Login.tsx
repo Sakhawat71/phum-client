@@ -3,9 +3,10 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { verifytoken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
+import { useNavigate } from "react-router";
 
 const Login = () => {
-
+    const navigate = useNavigate()
     const dispatch = useAppDispatch();
 
     const {
@@ -30,7 +31,7 @@ const Login = () => {
             user: userData,
             token: res.data.accessToken
         }));
-        // console.log('decoded data => ', userData);
+        navigate(`/${userData.role}/dashboard`);
     };
 
     if (error) {
