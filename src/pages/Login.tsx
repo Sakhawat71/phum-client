@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { verifytoken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
-import { setUser } from "../redux/features/auth/authSlice";
+import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Login = () => {
 
     const onSubmit = async (data) => {
 
-        toast.loading('logged in...');
+        const toastId = toast.loading('logged in...');
 
         try {
             const userInfo = {
@@ -30,14 +30,15 @@ const Login = () => {
             const res = await login(userInfo).unwrap();
             console.log('redux data =>', res.data);
 
-            const userData = verifytoken(res.data.accessToken);
+            const userData = verifytoken(res.data.accessToken) as TUser;
             dispatch(setUser({
                 user: userData,
                 token: res.data.accessToken
             }));
             navigate(`/${userData.role}/dashboard`);
+            toast.success('login successful', { id: toastId, duration: 2000})
         } catch (error) {
-            console.log(error);
+            toast.error('Something went wrong', { id: toastId, duration: 2000 });
         }
     };
 
@@ -47,6 +48,7 @@ const Login = () => {
 
     return (
         <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+
             <h2>Login</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* ID Input */}
@@ -77,6 +79,8 @@ const Login = () => {
                 <button type="submit" style={{ padding: "10px 20px", background: "#1890ff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}>
                     Login
                 </button>
+
+
             </form>
         </div>
     );
