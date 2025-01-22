@@ -4,9 +4,10 @@ import { verifytoken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const Login = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const {
@@ -19,19 +20,25 @@ const Login = () => {
 
     const onSubmit = async (data) => {
 
-        const userInfo = {
-            id: data.id,
-            password: data.password,
-        };
-        const res = await login(userInfo).unwrap();
-        console.log('redux data =>', res.data);
+        toast.loading('logged in...');
 
-        const userData = verifytoken(res.data.accessToken);
-        dispatch(setUser({
-            user: userData,
-            token: res.data.accessToken
-        }));
-        navigate(`/${userData.role}/dashboard`);
+        try {
+            const userInfo = {
+                id: data.id,
+                password: data.password,
+            };
+            const res = await login(userInfo).unwrap();
+            console.log('redux data =>', res.data);
+
+            const userData = verifytoken(res.data.accessToken);
+            dispatch(setUser({
+                user: userData,
+                token: res.data.accessToken
+            }));
+            navigate(`/${userData.role}/dashboard`);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     if (error) {
