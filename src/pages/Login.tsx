@@ -1,10 +1,15 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { verifytoken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
+
+// type TUserInput = {
+//     id : string;
+//     password : string;
+// }
 
 const Login = () => {
     const navigate = useNavigate();
@@ -16,9 +21,9 @@ const Login = () => {
         formState: { errors }
     } = useForm();
 
-    const [login, { error }] = useLoginMutation();
+    const [login] = useLoginMutation();
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data : FieldValues) => {
 
         const toastId = toast.loading('logged in...');
 
@@ -42,9 +47,6 @@ const Login = () => {
         }
     };
 
-    if (error) {
-        console.log('redux error =>', error);
-    };
 
     return (
         <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
