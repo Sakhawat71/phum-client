@@ -6,10 +6,6 @@ import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
-// type TUserInput = {
-//     id : string;
-//     password : string;
-// }
 
 const Login = () => {
     const navigate = useNavigate();
