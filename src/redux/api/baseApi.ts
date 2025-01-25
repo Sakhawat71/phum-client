@@ -7,7 +7,7 @@ const baseQeury = fetchBaseQuery({
     prepareHeaders(headers, { getState }) {
         const token = (getState() as RootState).auth.token;
         if (token) {
-            headers.set('authorization', token);
+            headers.set('authorization', `${token}`);
         }
         return headers;
     },
@@ -17,7 +17,17 @@ const baseQeury = fetchBaseQuery({
 //{signal, dispatch, getState}
 const BaseQueryWithRefreshToken = async(args, api, extraOptions) => {
     const resut = await baseQeury(args,api,extraOptions);
-    console.log(resut);
+    // console.log(resut);
+    if(resut.error?.status === 401){
+
+        const res = await fetch('/auth/refresh-token', {
+            method : 'POST',
+            credentials : 'include'
+        });
+        const data = await res.json();
+        console.log(data);
+
+    }
 }
 
 export const baseApi = createApi({
