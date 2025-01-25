@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { setUser } from "../features/auth/authSlice";
 
-const baseQeury = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:5000/api/v1',
     credentials: 'include',
     prepareHeaders(headers, { getState }) {
@@ -17,8 +17,7 @@ const baseQeury = fetchBaseQuery({
 
 //{signal, dispatch, getState}
 const BaseQueryWithRefreshToken = async(args, api, extraOptions) => {
-    const resut = await baseQeury(args,api,extraOptions);
-    // console.log(resut);
+    let resut = await baseQuery(args,api,extraOptions);
     if(resut.error?.status === 401){
 
         const res = await fetch('/auth/refresh-token', {
@@ -32,9 +31,10 @@ const BaseQueryWithRefreshToken = async(args, api, extraOptions) => {
         api.dispatch(
             setUser({
                 user,
-                token : data.accessToken
+                token : data.data.accessToken
             })
-        )
+        );
+        resut = await baseQuery(args, api, extraOptions);
     };
     return resut;
 };
