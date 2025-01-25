@@ -29,7 +29,7 @@ const Login = () => {
                 password: data.password,
             };
             const res = await login(userInfo).unwrap();
-            console.log('redux data =>', res.data);
+            // console.log('redux data =>', res.data);
 
             const userData = verifytoken(res.data.accessToken) as TUser;
             dispatch(setUser({
