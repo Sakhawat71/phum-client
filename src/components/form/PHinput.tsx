@@ -1,10 +1,23 @@
-import { useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-const PHInput = ({type,name}) => {
-    
-    const {register} = useFormContext();
+type TInputProps = {
+    type: string,
+    name: string,
+    label?: string
+}
 
-    return  <input type={type} id={name} {...register}></input>
+const PHInput = ({ type, name, label } : TInputProps) => {
+
+
+    return (
+        <div style={{ marginBottom: '20px' }}>
+            {label ? label : null}
+            <Controller
+                name={name}
+                render={({ field }) => <input {...field} type={type} id={name} />}
+            />
+        </div>
+    )
 };
 
 export default PHInput;
