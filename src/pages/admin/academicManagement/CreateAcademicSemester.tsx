@@ -2,37 +2,24 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHform";
 import PHInput from "../../../components/form/PHinput";
 import PHSelect from "../../../components/form/PHSelect";
+import { monthOptions, nameOptions } from "../../../constants/semester";
 
 
-const nameOptions = [
-    {
-        label: "Autumn",
-        value: "01"
-    },
-    {
-        label: "Summer",
-        value: "02"
-    },
-    {
-        label: "Fall",
-        value: "03"
-    },
-];
 
-const monthOptions = [
-    {
-        label: "April",
-        value: "April"
-    },
-    {
-        label: "August",
-        value: "August"
-    },
-    {
-        label: "December",
-        value: "December"
-    },
-];
+// const monthOptions = [
+//     {
+//         label: "April",
+//         value: "April"
+//     },
+//     {
+//         label: "August",
+//         value: "August"
+//     },
+//     {
+//         label: "December",
+//         value: "December"
+//     },
+// ];
 
 const currentYear = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
@@ -49,8 +36,8 @@ const CreateAcademicSemester = () => {
             name,
             code: data.name,
             year: data.year,
-            // startMonth:,
-            // endMonth: 
+            startMonth: data.startMonth,
+            endMonth: data.endMonth
         }
         console.log(semmesterData);
 
