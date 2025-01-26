@@ -3,7 +3,7 @@ import PHForm from "../../../components/form/PHform";
 import PHSelect from "../../../components/form/PHSelect";
 import { monthOptions, nameOptions } from "../../../constants/semester";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod'
+import { academicSemesterSchema } from "../../../schemas/academicManagement.schema";
 
 
 
@@ -26,13 +26,6 @@ const CreateAcademicSemester = () => {
         }
         console.log(semmesterData);
     };
-
-    const academicSemesterSchema = z.object({
-        name: z.string().min(1, { message: "Name is required" }),
-        year: z.string().min(1, { message: "Year is required" }),
-        startMonth: z.string().min(1, { message: "Start month is required" }),
-        endMonth: z.string().min(1, { message: "End month is required" }),
-    });
 
 
     return (
