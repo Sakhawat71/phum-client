@@ -9,7 +9,7 @@ type TSelectProps = {
 };
 
 const PHSelect = ({ name, label, options, placeholder }: TSelectProps) => {
-    const { control } = useFormContext();
+    const { control, formState: { errors } } = useFormContext();
 
     return (
         <div style={{ marginBottom: '20px' }}>
@@ -43,6 +43,12 @@ const PHSelect = ({ name, label, options, placeholder }: TSelectProps) => {
                     />
                 )}
             />
+
+            {errors[name] && (
+                <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                    {(errors[name] as any).message}
+                </p>
+            )}
         </div>
     );
 };

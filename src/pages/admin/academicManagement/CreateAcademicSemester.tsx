@@ -2,6 +2,9 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHform";
 import PHSelect from "../../../components/form/PHSelect";
 import { monthOptions, nameOptions } from "../../../constants/semester";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod'
+
 
 
 const currentYear = new Date().getFullYear();
@@ -13,7 +16,6 @@ const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
 const CreateAcademicSemester = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-
         const name = nameOptions[Number(data.name) - 1]?.label;
         const semmesterData = {
             name,
@@ -23,11 +25,18 @@ const CreateAcademicSemester = () => {
             endMonth: data.endMonth
         }
         console.log(semmesterData);
-
     };
 
+    const academicSemesterSchema = z.object({
+        name: z.string().min(1, { message: "Name is required" }),
+        year: z.string().min(1, { message: "Year is required" }),
+        startMonth: z.string().min(1, { message: "Start month is required" }),
+        endMonth: z.string().min(1, { message: "End month is required" }),
+    });
+
+
     return (
-        <PHForm onSubmit={onSubmit} >
+        <PHForm onSubmit={onSubmit} resolver={zodResolver(academicSemesterSchema)} >
 
             <PHSelect
                 name="name"
