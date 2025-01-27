@@ -44,7 +44,6 @@ const CreateAcademicSemester = () => {
                 options={yearOptions}
             />
 
-
             <PHSelect
                 name="startMonth"
                 label="Start Month:"
