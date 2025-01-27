@@ -31,14 +31,14 @@ const CreateAcademicSemester = () => {
             endMonth: data.endMonth
         }
 
-        console.log(semmesterData);
+        // console.log(semmesterData);
 
         try {
             const res = await addAcademicSemester(semmesterData) as TResponse;
 
             const successMessage = res.data?.message;
             const errorMessage = res.error?.data?.message;
-            console.log(res);
+            // console.log(res);
 
             if (res.data?.success) {
                 toast.success(successMessage);
@@ -48,7 +48,7 @@ const CreateAcademicSemester = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error('Something went wrong')
         }
     };
