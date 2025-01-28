@@ -2,9 +2,14 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../components/form/PHform";
 import PHInput from "../../components/form/PHinput";
 import PHSelect from "../../components/form/PHSelect";
+import { useGetAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../redux/features/admin/academicManagement.api";
 
 const CreateStudent = () => {
 
+    const { data: semesterData ,isLoading } = useGetAllSemestersQuery(undefined);
+    const { data: DepData, isLoading : depLoading } = useGetAcademicDepartmentQuery(undefined);
+
+    // console.log(semesterData);
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         // console.log(data);
@@ -17,11 +22,22 @@ const CreateStudent = () => {
         console.log(data);
     };
 
+
+    const semesterOptions = semesterData?.data?.map((sem) => ({
+        value: sem._id,
+        label: `${sem.name} ${sem.year}`,
+    }))
+
+    const departmentOptions = DepData?.data?.map((dep) => ({
+        value: dep._id,
+        label: dep.name,
+    }));
+
     return (
 
         <PHForm onSubmit={onSubmit} key={'create-student'}>
 
-            <h1 style={{display : 'flex', justifyContent : 'center'}}>Student Information</h1>
+            <h1 style={{ display: 'flex', justifyContent: 'center' }}>Student Information</h1>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                 <PHInput name="name.firstName" type="text" label="First Name:" placeholder="First Name" />
                 <PHInput name="name.middleName" type="text" label="Middle Name:" placeholder="Middle Name" />
@@ -85,19 +101,15 @@ const CreateStudent = () => {
                 <PHSelect
                     name="admissionSemester"
                     label="Admission Semester:"
-                    options={[
-                        { value: "676fb94c58dcd9e0647fb0c1", label: "Fall 2024" },
-                        { value: "676fb0d2a5e867ac0d31ba5b", label: "Spring 2025" },
-                    ]}
+                    disabled={isLoading}
+                    options={semesterOptions || []}
                     placeholder="Select Semester"
                 />
                 <PHSelect
                     name="academicDepartment"
                     label="Academic Department:"
-                    options={[
-                        { value: "676fb0d2a5e867ac0d31ba5b", label: "Computer Science" },
-                        { value: "676fb0d2a5e867ac0d31ba5c", label: "Mathematics" },
-                    ]}
+                    disabled={depLoading}
+                    options={departmentOptions || []}
                     placeholder="Select Department"
                 />
             </div>

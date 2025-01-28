@@ -6,9 +6,10 @@ type TSelectProps = {
     label?: string;
     options: { label: string; value: string | number }[];
     placeholder?: string;
+    disabled?: boolean ;
 };
 
-const PHSelect = ({ name, label, options, placeholder }: TSelectProps) => {
+const PHSelect = ({ name, label, options, placeholder, disabled }: TSelectProps) => {
     const { control, formState: { errors } } = useFormContext();
 
     return (
@@ -39,6 +40,7 @@ const PHSelect = ({ name, label, options, placeholder }: TSelectProps) => {
                             borderRadius: '6px',
                         }}
                         placeholder={placeholder || "Please select"}
+                        disabled={disabled}
                         options={options}
                     />
                 )}

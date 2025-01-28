@@ -10,6 +10,7 @@ export type TError = {
 };
 
 export type TAcademicSemester = {
+    _id: string; 
     name: string;
     code: string;
     year: string;
