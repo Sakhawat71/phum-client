@@ -13,10 +13,9 @@ interface IDataType {
 
 const AcademicSemester = () => {
 
-    const { data: semesterData } = useGetAllSemestersQuery(undefined);
-    // console.log(semesterData?.data);
+    const { data: semesterData, isLoading } = useGetAllSemestersQuery(undefined);
 
-    const tableData = semesterData?.data?.map(({ _id, name, year, startMonth, endMonth }) => ({
+    const tableData = semesterData?.data?.map(({ _id, name, year, startMonth, endMonth }: IDataType) => ({
         key: _id, name, year, startMonth, endMonth
     }));
 
@@ -25,7 +24,11 @@ const AcademicSemester = () => {
     const [filteredInfo, setFilteredInfo] = useState({});
     const [sortedInfo, setSortedInfo] = useState({});
 
-    const handleChange = (pagination: any, filters: any, sorter: any) => {
+    const handleChange= (
+        pagination: any,
+        filters: any,
+        sorter: any
+    ) => {
         setFilteredInfo(filters);
         setSortedInfo(sorter);
     };
@@ -67,31 +70,12 @@ const AcademicSemester = () => {
             title: "Start Month",
             dataIndex: "startMonth",
             key: "startMonth",
-            filters: [
-                ...Array.from(
-                    new Set(tableData?.map((data) => data.startMonth))
-                ).map((month) => ({ text: month, value: month })),
-            ],
-            filteredValue: filteredInfo.startMonth || null,
-            onFilter: (value, record) => record.startMonth === value,
-            sorter: (a, b) => a.startMonth.localeCompare(b.startMonth),
-            sortOrder: sortedInfo.columnKey === "startMonth" ? sortedInfo.order : null,
-            ellipsis: true,
+
         },
         {
             title: "End Month",
             dataIndex: "endMonth",
             key: "endMonth",
-            filters: [
-                ...Array.from(
-                    new Set(tableData?.map((data) => data.endMonth))
-                ).map((month) => ({ text: month, value: month })),
-            ],
-            filteredValue: filteredInfo.endMonth || null,
-            onFilter: (value, record) => record.endMonth === value,
-            sorter: (a, b) => a.endMonth.localeCompare(b.endMonth),
-            sortOrder: sortedInfo.columnKey === "endMonth" ? sortedInfo.order : null,
-            ellipsis: true,
         },
         {
             title: "Actions",
@@ -99,7 +83,7 @@ const AcademicSemester = () => {
             render: (_, record) => (
                 <Space size="middle">
                     <Button type="link" onClick={() => handleEdit(record)}>
-                        Edit
+                        Update
                     </Button>
                     <Button type="link" danger onClick={() => handleDelete(record.key)}>
                         Delete
@@ -109,7 +93,9 @@ const AcademicSemester = () => {
         },
     ];
 
-
+    if (isLoading) {
+        return <p>loading ........</p>
+    }
 
     return (
         <div style={{ padding: "20px" }}>

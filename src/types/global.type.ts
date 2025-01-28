@@ -9,19 +9,23 @@ export type TError = {
     status: number;
 };
 
-type TSemester = {
+export type TAcademicSemester = {
     name: string;
     code: string;
     year: string;
     startMonth: string;
     endMonth: string;
-}
-
-export type TData = {
-    data: TSemester;
-    message: string;
-    success: boolean;
 };
+
+export type TAcademicFaculty = {
+    _id: string
+    name: string
+    createdAt?: string
+    updatedAt?: string
+    __v?: number
+};
+
+
 
 export type TMeta = {
     limit: number;
@@ -30,12 +34,18 @@ export type TMeta = {
     totalPage: number;
 };
 
-export type TResponse = {
-    data?: TData;
+export type TResponse<T> = {
+    data?: T;
     error?: TError;
     mete?: TMeta;
     success: boolean;
     message: string;
 };
 
-export type TResponseRedux = TResponse & BaseQueryApi;
+export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
+
+// export interface FacultyType {
+//     _id: string;
+//     name: string;
+//     department: string;
+// }
