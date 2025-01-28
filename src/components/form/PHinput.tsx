@@ -1,13 +1,14 @@
 import { Controller, useFormContext } from "react-hook-form";
 
 type TInputProps = {
-    type: string,
-    name: string,
-    label?: string
-}
+    type: string;
+    name: string;
+    label?: string;
+    placeholder?: string;
+};
 
-const PHInput = ({ type, name, label }: TInputProps) => {
-const { formState: { errors } } = useFormContext();
+const PHInput = ({ type, name, label, placeholder }: TInputProps) => {
+    const { formState: { errors } } = useFormContext();
 
     return (
         <div style={{ marginBottom: '8px' }}>
@@ -32,7 +33,7 @@ const { formState: { errors } } = useFormContext();
                         {...field}
                         type={type}
                         id={name}
-                        placeholder={''}
+                        placeholder={placeholder}
                         style={{
                             width: '100%',
                             padding: '10px 12px',

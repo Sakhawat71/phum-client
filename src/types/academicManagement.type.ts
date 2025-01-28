@@ -7,4 +7,9 @@ export type TAcademicDepartment = {
     createdAt: string
     updatedAt: string
     __v: number
-}
+};
+
+export type TCreateADepartment = {
+    name: string;
+    academicFaculty: string;
+};

@@ -23,7 +23,7 @@ const CreateAcademicFaculty = () => {
         },
     });
     const onSubmit = async (data: AcademicFacultyFormData) => {
-        console.log(data);
+        // console.log(data);
         try {
             await addAcademicFaculty(data).unwrap();
             message.success("Academic Faculty created successfully!");

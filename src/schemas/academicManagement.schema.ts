@@ -11,3 +11,8 @@ export const academicSemesterSchema = z.object({
 export const academicFacultySchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
 });
+
+export const academicDepartmentSchema = z.object({
+    academicFaculty: z.string().min(1, { message: 'Academic Faculty is required' }),
+    name: z.string().min(1, { message: "Name is required" }),
+});
