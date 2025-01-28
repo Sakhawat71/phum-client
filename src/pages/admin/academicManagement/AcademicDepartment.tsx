@@ -5,7 +5,7 @@ const { Title } = Typography;
 const AcademicDepartment = () => {
 
     const { data, isFetching } = useGetAcademicDepartmentQuery(undefined);
-    console.log(isFetching, data);
+    // console.log(isFetching, data);
 
 
     const tableData = data?.data?.map((department: any) => ({
