@@ -4,28 +4,28 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-fo
 type TFormProps = {
     onSubmit: SubmitHandler<FieldValues>,
     children: ReactNode,
-    resolver : any
+    resolver: any
 }
 
 
 const PHForm = (
-    { onSubmit, children, resolver}: TFormProps
+    { onSubmit, children, resolver }: TFormProps
 ) => {
-    const methods = useForm({resolver});
+    const methods = useForm({ resolver });
 
     return (
         <div
             style={{
-                maxWidth: '500px',
+                maxWidth: '100%',
+                width: '90%',
                 margin: '0 auto',
                 padding: '20px',
                 border: '1px solid #e5e5e5',
                 borderRadius: '8px',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                backgroundColor: '#E8F0FE'
+                backgroundColor: '#E8F0FE',
             }}
         >
-
             <FormProvider {...methods}>
                 <form
                     onSubmit={methods.handleSubmit(onSubmit)}
@@ -36,28 +36,37 @@ const PHForm = (
                     }}
                 >
                     {children}
-                    <button
-                        type="submit"
+                    <div
                         style={{
-                            padding: '10px 16px',
-                            backgroundColor: '#1890ff',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '6px',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.3s ease',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            marginTop: '16px',
                         }}
-                        onMouseOver={(e) =>
-                            (e.currentTarget.style.backgroundColor = '#40a9ff')
-                        }
-                        onMouseOut={(e) =>
-                            (e.currentTarget.style.backgroundColor = '#1890ff')
-                        }
                     >
-                        Submit
-                    </button>
+                        <button
+                            type="submit"
+                            style={{
+                                padding: '12px 20px',
+                                backgroundColor: '#1890ff',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '6px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s ease',
+                                minWidth: '120px',
+                            }}
+                            onMouseOver={(e) =>
+                                (e.currentTarget.style.backgroundColor = '#40a9ff')
+                            }
+                            onMouseOut={(e) =>
+                                (e.currentTarget.style.backgroundColor = '#1890ff')
+                            }
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </form>
             </FormProvider>
         </div>

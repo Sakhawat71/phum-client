@@ -22,13 +22,37 @@ const CreateStudent = () => {
             Create Student
 
             <PHForm onSubmit={onSubmit}>
-                {/* Student Info */}
+
                 <h3>Student Information</h3>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                     <PHInput name="name.firstName" type="text" label="First Name:" placeholder="First Name" />
                     <PHInput name="name.middleName" type="text" label="Middle Name:" placeholder="Middle Name" />
                     <PHInput name="name.lastName" type="text" label="Last Name:" placeholder="Last Name" />
-                    <PHInput name="gender" type="text" label="Gender:" placeholder="Gender" />
+                    <PHSelect
+                        name="gender"
+                        label="Gender:"
+                        options={[
+                            { value: "male", label: "Male" },
+                            { value: "female", label: "Female" },
+                            { value: "other", label: "Other" },
+                        ]}
+                        placeholder="Select Gender"
+                    />
+                    <PHSelect
+                        name="bloodGroup"
+                        label="Blood Group:"
+                        options={[
+                            { value: "A+", label: "A+" },
+                            { value: "A-", label: "A-" },
+                            { value: "B+", label: "B+" },
+                            { value: "B-", label: "B-" },
+                            { value: "AB+", label: "AB+" },
+                            { value: "AB-", label: "AB-" },
+                            { value: "O+", label: "O+" },
+                            { value: "O-", label: "O-" },
+                        ]}
+                        placeholder="Select Blood Group"
+                    />
                     <PHInput name="dateOfBirth" type="date" label="Date of Birth:" placeholder="Date of Birth" />
                     <PHInput name="email" type="email" label="Email:" placeholder="Email Address" />
                     <PHInput name="contactNo" type="text" label="Contact No:" placeholder="Contact Number" />
@@ -80,6 +104,9 @@ const CreateStudent = () => {
                     />
                 </div>
             </PHForm>
+
+
+
         </div>
     );
 };
