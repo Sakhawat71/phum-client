@@ -11,7 +11,7 @@ import { toast } from "sonner";
 const UpdateStudent = () => {
     const { studentId } = useParams();
     const { data: studentData, isLoading } = useGetStudentByIdQuery(studentId);
-    const [updateStudent, { isLoading: updating }] = useUpdateStudentMutation();
+    const [updateStudent] = useUpdateStudentMutation();
 
     const { data: semesterData, isLoading: semLoading } = useGetAllSemestersQuery(undefined);
     const { data: DepData, isLoading: depLoading } = useGetAcademicDepartmentQuery(undefined);

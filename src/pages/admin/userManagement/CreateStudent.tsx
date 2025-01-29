@@ -10,40 +10,40 @@ import PHSelect from "../../../components/form/PHSelect";
 
 
 
-const defStudent = {
-    // password: "Student123",
-    student: {
-        name: {
-            firstName: "Pablo",
-            middleName: "",
-            lastName: "Doe"
-        },
-        gender: "male",
-        dateOfBirth: "2000-08-12",
-        email: "pablo@gmail.com",
-        contactNo: "+9876543211",
-        emergencyContactNo: "+1234567899",
-        presentAddress: "45 Sunshine Avenue, City, Country",
-        permanentAddress: "90 Cloud Street, City, Country",
-        guardian: {
-            fatherName: "Mark Doe",
-            fatherOccupation: "Architect",
-            fatherContactNo: "+9988776655",
-            motherName: "Laura Doe",
-            motherOccupation: "Professor",
-            motherContactNo: "+8877665544"
-        },
-        localGuardian: {
-            name: "Alice Green",
-            occupation: "Software Engineer",
-            contactNo: "+6677889900",
-            address: "23 Blossom Lane, City, Country"
-        },
-        admissionSemester: "676fb94c58dcd9e0647fb0c1",
-        academicDepartment: "676fb0d2a5e867ac0d31ba5b",
-        isDeleted: false
-    }
-}
+// const defStudent = {
+//     // password: "Student123",
+//     student: {
+//         name: {
+//             firstName: "Pablo",
+//             middleName: "",
+//             lastName: "Doe"
+//         },
+//         gender: "male",
+//         dateOfBirth: "2000-08-12",
+//         email: "pablo@gmail.com",
+//         contactNo: "+9876543211",
+//         emergencyContactNo: "+1234567899",
+//         presentAddress: "45 Sunshine Avenue, City, Country",
+//         permanentAddress: "90 Cloud Street, City, Country",
+//         guardian: {
+//             fatherName: "Mark Doe",
+//             fatherOccupation: "Architect",
+//             fatherContactNo: "+9988776655",
+//             motherName: "Laura Doe",
+//             motherOccupation: "Professor",
+//             motherContactNo: "+8877665544"
+//         },
+//         localGuardian: {
+//             name: "Alice Green",
+//             occupation: "Software Engineer",
+//             contactNo: "+6677889900",
+//             address: "23 Blossom Lane, City, Country"
+//         },
+//         admissionSemester: "676fb94c58dcd9e0647fb0c1",
+//         academicDepartment: "676fb0d2a5e867ac0d31ba5b",
+//         isDeleted: false
+//     }
+// }
 
 
 

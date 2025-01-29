@@ -35,6 +35,23 @@ const userManagementApi = baseApi.injectEndpoints({
             }),
         }),
 
+        // admin
+        getAdmins: builder.query({
+            query: () => ({
+                url: '/admins',
+                method: 'GET',
+            }),
+        }),
+
+        addAdmin: builder.mutation({
+            query: (data) => ({
+                url: '/users/create-admin',
+                method: 'POST',
+                body: data,
+            })
+        }),
+
+
     }),
 });
 
@@ -44,4 +61,6 @@ export const {
     useAddStudentMutation,
     useGetStudentByIdQuery,
     useUpdateStudentMutation,
+    useGetAdminsQuery,
+    useAddAdminMutation,
 } = userManagementApi;

@@ -20,7 +20,7 @@ const StudentData = () => {
     const { data, isLoading } = useGetStudentsQuery(query);
     const studentData = data?.data?.result || [];
     const totalStudents = data?.data?.meta?.total || 0;
-
+    // console.log(studentData);
     const columns = [
         {
             title: "Student ID",

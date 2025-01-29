@@ -56,3 +56,30 @@ export type TUser = {
     updatedAt: string;
     __v: number;
 };
+
+
+export interface IAdmin {
+    _id: string;
+    id: string;
+    user: string;
+    designation: string;
+    name: IAdminName;
+    gender: string;
+    dateOfBirth: string;
+    email: string;
+    contactNo: string;
+    emergencyContactNo: string;
+    bloogGroup: string;
+    presentAddress: string;
+    permanentAddress: string;
+    profileImg?: string;
+    isDeleted?: boolean;
+    fullName: string;
+}
+
+export interface IAdminName {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    _id: string;
+}
