@@ -6,9 +6,10 @@ const userManagementApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
         getStudents: builder.query({
-            query: () => ({
+            query: (params) => ({
                 url: '/students',
-                method: 'GET'
+                method: 'GET',
+                params
             }),
             // transformResponse: (response: TResponseRedux<any[]>) => {
             //     return {

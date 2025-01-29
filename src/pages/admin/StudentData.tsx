@@ -1,9 +1,24 @@
 import { Table, Button, Space } from "antd";
+import { useState } from "react";
 import { useGetStudentsQuery } from "../../redux/features/admin/userManagement.api";
 
 const StudentData = () => {
-    const { data, isLoading } = useGetStudentsQuery(undefined);
+    const [currentPage, setCurrentPage] = useState(1); // Manage page state
+    const pageSize = 10; // Set the limit per page
+
+    const query = {
+        // searchTerm: "Mrs",
+        // email: "mir@example.com",
+        sort: "id",
+        page: currentPage,
+        // fields: "name,email,contactNo",
+        limit: pageSize,
+    };
+
+    const { data, isLoading } = useGetStudentsQuery(query);
     const studentData = data?.data?.result || [];
+    const totalStudents = data?.data?.meta?.total || 0; // Assuming your API returns total count
+    // console.log(refetch);
 
     const columns = [
         {
@@ -33,14 +48,19 @@ const StudentData = () => {
 
     return (
         <div>
-            <h2>Total Students: {studentData.length}</h2>
+            <h2>Total Students: {totalStudents}</h2>
             <Table
                 columns={columns}
                 dataSource={studentData}
                 loading={isLoading}
                 rowKey="id"
                 bordered
-                pagination={{ pageSize: 5 }}
+                pagination={{
+                    current: currentPage,
+                    pageSize,
+                    total: totalStudents,
+                    onChange: (page) => setCurrentPage(page), // Update page on change
+                }}
             />
         </div>
     );
