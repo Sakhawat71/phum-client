@@ -2,6 +2,7 @@ import { Table, Button, Space } from "antd";
 import { useState } from "react";
 import { useGetStudentsQuery } from "../../redux/features/admin/userManagement.api";
 import { Link } from "react-router";
+import { IStudent } from "../../types";
 
 const StudentData = () => {
     const [currentPage, setCurrentPage] = useState(1); // Manage page state
@@ -46,16 +47,16 @@ const StudentData = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (record) => (
+            render: (record : IStudent) => (
                 <Space>
-                    <Link to={`/admin/students/${record._id}`}>
+                    <Link to={`/admin/students/${record.id}`}>
                         <Button
                             type="link"
                             // onClick={() => console.log("Details", record._id)}
                         >Details</Button>
                     </Link>
 
-                    <Link to={`/admin/student-update/${record._id}`}>
+                    <Link to={`/admin/student-update/${record.id}`}>
                         <Button
                             type="primary"
                             // onClick={() => console.log("Update", record._id)}

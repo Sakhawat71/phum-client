@@ -5,6 +5,7 @@ export interface IStudentData {
 };
 
 export interface IStudent {
+    id?: string;
     name: IName;
     gender: string;
     bloodGroup?: string;
