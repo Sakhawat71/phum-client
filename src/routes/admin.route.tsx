@@ -10,6 +10,8 @@ import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
 import StudentData from "../pages/admin/StudentData";
+import StudentDetails from "../pages/admin/StudentDetails";
+import StudentUpdate from "../pages/admin/StudentUpdate";
 import { TUserPath } from "../types/sidebar.type";
 
 export const adminPaths: TUserPath[] = [
@@ -76,6 +78,15 @@ export const adminPaths: TUserPath[] = [
                 path: 'students',
                 element: <StudentData />,
             },
+            {
+                path: 'students/:studentId',
+                element: <StudentDetails />,
+            },
+            {
+                path : 'student-update/:studentId',
+                element : <StudentUpdate />
+            }
+            
         ],
     },
 ];

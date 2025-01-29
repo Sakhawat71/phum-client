@@ -1,6 +1,7 @@
 import { Table, Button, Space } from "antd";
 import { useState } from "react";
 import { useGetStudentsQuery } from "../../redux/features/admin/userManagement.api";
+import { Link } from "react-router";
 
 const StudentData = () => {
     const [currentPage, setCurrentPage] = useState(1); // Manage page state
@@ -17,14 +18,23 @@ const StudentData = () => {
 
     const { data, isLoading } = useGetStudentsQuery(query);
     const studentData = data?.data?.result || [];
-    const totalStudents = data?.data?.meta?.total || 0; // Assuming your API returns total count
-    // console.log(refetch);
+    const totalStudents = data?.data?.meta?.total || 0;
 
     const columns = [
         {
             title: "Student ID",
             dataIndex: "id",
             key: "id",
+        },
+        {
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
+        },
+        {
+            title: "Contact No",
+            dataIndex: "contactNo",
+            key: "contactNo",
         },
         {
             title: "Student Name",
@@ -36,11 +46,27 @@ const StudentData = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (_, record) => (
+            render: (record) => (
                 <Space>
-                    <Button type="link" onClick={() => console.log("Details", record)}>Details</Button>
-                    <Button type="primary" onClick={() => console.log("Update", record)}>Update</Button>
-                    <Button type="dashed" danger onClick={() => console.log("Delete", record)}>Delete</Button>
+                    <Link to={`/admin/students/${record._id}`}>
+                        <Button
+                            type="link"
+                            // onClick={() => console.log("Details", record._id)}
+                        >Details</Button>
+                    </Link>
+
+                    <Link to={`/admin/student-update/${record._id}`}>
+                        <Button
+                            type="primary"
+                            // onClick={() => console.log("Update", record._id)}
+                        >Update</Button>
+                    </Link>
+
+                    <Button
+                        type="dashed"
+                        danger onClick={() => console.log("Delete", record)}
+                    >Delete</Button>
+
                 </Space>
             ),
         },
