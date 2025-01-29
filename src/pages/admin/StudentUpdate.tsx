@@ -5,7 +5,7 @@ import PHInput from "../../components/form/PHinput";
 import PHSelect from "../../components/form/PHSelect";
 import { useGetAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../redux/features/admin/academicManagement.api";
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../redux/features/admin/userManagement.api";
-import { Form, Input, Button, Spin } from "antd";
+import { Form, Input, Spin } from "antd";
 import { toast } from "sonner";
 
 const UpdateStudent = () => {

@@ -52,7 +52,7 @@ const CreateStudent = () => {
 
     const { data: semesterData, isLoading: semLoading } = useGetAllSemestersQuery(undefined);
     const { data: DepData, isLoading: depLoading } = useGetAcademicDepartmentQuery(undefined);
-    const [addStudent, { error, data }] = useAddStudentMutation();
+    const [addStudent,] = useAddStudentMutation();
     // console.log('data -> ', data);
     // console.log('error -> ', error);
 
