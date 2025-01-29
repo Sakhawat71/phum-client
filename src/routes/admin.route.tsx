@@ -3,11 +3,13 @@ import AcademicFaculty from "../pages/admin/academicManagement/AcademicFaculty";
 import AcademicSemester from "../pages/admin/academicManagement/AcademicSemester";
 import CreateAcademicDepartment from "../pages/admin/academicManagement/CreateAcademicDepartment";
 import CreateAcademicFaculty from "../pages/admin/academicManagement/CreateAcademicFaculty";
-import CreateAcademicSemester from "../pages/admin/academicManagement/createAcademicSemester";
+import CreateAcademicSemester from "../pages/admin/academicManagement/CreateAcademicSemester";
+// import CreateAcademicSemester from "../pages/admin/academicManagement/createAcademicSemester";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
+import StudentData from "../pages/admin/StudentData";
 import { TUserPath } from "../types/sidebar.type";
 
 export const adminPaths: TUserPath[] = [
@@ -68,7 +70,12 @@ export const adminPaths: TUserPath[] = [
                 name: 'Create Student',
                 path: 'create-student',
                 element: <CreateStudent />,
-            }
+            },
+            {
+                name: 'Student Data',
+                path: 'students',
+                element: <StudentData />,
+            },
         ],
     },
 ];

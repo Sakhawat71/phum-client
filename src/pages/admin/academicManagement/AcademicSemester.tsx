@@ -16,7 +16,7 @@ const AcademicSemester = () => {
     const { data: semesterData, isLoading } = useGetAllSemestersQuery(undefined);
 
     const tableData = semesterData?.data?.map(({ _id, name, year, startMonth, endMonth }: IDataType) => ({
-        key: _id, name, year, startMonth, endMonth
+        key: _id,_id, name, year, startMonth, endMonth
     }));
 
 

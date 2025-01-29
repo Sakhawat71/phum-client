@@ -43,6 +43,11 @@ export type TResponse<T> = {
     message: string;
 };
 
+export type TStudentRes<T> = {
+    result : T;
+    meta : TMeta;
+}
+
 export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
 
 // export interface FacultyType {
