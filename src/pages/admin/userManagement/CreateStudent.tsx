@@ -1,11 +1,11 @@
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
-import PHForm from "../../components/form/PHform";
-import PHInput from "../../components/form/PHinput";
-import PHSelect from "../../components/form/PHSelect";
-import { useGetAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../redux/features/admin/academicManagement.api";
-import { useAddStudentMutation } from "../../redux/features/admin/userManagement.api";
 import { Form, Input } from "antd";
 import { toast } from "sonner";
+import { useGetAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
+import PHInput from "../../../components/form/PHinput";
+import PHForm from "../../../components/form/PHform";
+import PHSelect from "../../../components/form/PHSelect";
 
 
 

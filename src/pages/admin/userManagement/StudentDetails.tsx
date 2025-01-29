@@ -1,7 +1,7 @@
 import { Card, Descriptions, Spin, Avatar, Button } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router";
-import { useGetStudentByIdQuery } from "../../redux/features/admin/userManagement.api";
+import { useGetStudentByIdQuery } from "../../../redux/features/admin/userManagement.api";
 
 const StudentDetails = () => {
     const { studentId } = useParams();

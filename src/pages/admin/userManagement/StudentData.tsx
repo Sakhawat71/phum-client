@@ -1,8 +1,8 @@
 import { Table, Button, Space } from "antd";
 import { useState } from "react";
-import { useGetStudentsQuery } from "../../redux/features/admin/userManagement.api";
 import { Link } from "react-router";
-import { IStudent } from "../../types";
+import { useGetStudentsQuery } from "../../../redux/features/admin/userManagement.api";
+import { IStudent } from "../../../types";
 
 const StudentData = () => {
     const [currentPage, setCurrentPage] = useState(1); // Manage page state
