@@ -29,8 +29,13 @@ const courseManagementApi = baseApi.injectEndpoints({
             invalidatesTags : ['semester']
         }),
 
-
-
+        // courses
+        getCourses : builder.query({
+            query : () => ({
+                url : '/courses',
+                method : 'GET',
+            })
+        })
 
     })
 });
@@ -39,4 +44,5 @@ export const {
     useGetRegisterSemesterQuery,
     useAddRegisterSemesterMutation,
     useUpdateRegisterSemesterMutation,
+    useGetCoursesQuery,
 } = courseManagementApi;
