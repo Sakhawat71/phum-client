@@ -5,7 +5,8 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 const RegisteredSemester = () => {
     const { data: semestersData, isLoading, error } = useGetRegisterSemesterQuery(undefined);
 
-    const semesters = semestersData.data;
+    const semesters = semestersData?.data;
+    console.log(semesters);
 
     if (error) {
         message.error("Failed to fetch registered semesters.");
@@ -16,13 +17,21 @@ const RegisteredSemester = () => {
             title: "Academic Semester",
             dataIndex: "academicSemester",
             key: "academicSemester",
-            render: (data : any) =>
+            render: (data: any) =>
                 ` ${data.name} ${data.year}`,
         },
         {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            render: (status: string) => {
+                let color = "";
+                if (status === "ONGOING") color = "green";
+                else if (status === "UPCOMING") color = "blue";
+                else if (status === "ENDED") color = "red";
+
+                return <span style={{ color, fontWeight: "bold" }}>{status}</span>;
+            },
         },
         {
             title: "Start Date",
@@ -49,7 +58,7 @@ const RegisteredSemester = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (record: any) => (
+            render: () => (
                 <Space>
                     <Button type="primary" icon={<EditOutlined />}>
                         Update
