@@ -7,6 +7,7 @@ const FacultryData = () => {
 
     const { data: faculties , error, isLoading} = useGetFacultiesQuery(undefined)
 
+    // console.log(faculties?.data);
 
     if (error) {
         toast.error("Failed to fetch admins.");
@@ -29,7 +30,7 @@ const FacultryData = () => {
             key: "contactNo",
         },
         {
-            title: "Admin Name",
+            title: "Name",
             dataIndex: "name",
             key: "name",
             render: (name: { firstName: string; lastName: string }) =>
@@ -38,7 +39,7 @@ const FacultryData = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (record) => (
+            render: (record : any) => (
                 <Space>
                     <Button
                         type="primary"
@@ -63,7 +64,7 @@ const FacultryData = () => {
     return (
         <Table
             columns={columns}
-            dataSource={faculties || []}
+            dataSource={faculties?.data || []}
             loading={isLoading}
             rowKey="_id"
             bordered
