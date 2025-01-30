@@ -5,21 +5,33 @@ import PHSelect from "../../../components/form/PHSelect";
 import { toast } from "sonner";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 import { useAddRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
-import { DatePicker } from "antd";
-import dayjs from 'dayjs';
 import PHDatePicker from "../../../components/form/PHDatePicker";
+import { ISemesterRegistration } from "../../../types/courseManagement.type";
 
 const SemesterRegistration = () => {
 
     const { data: semestersData } = useGetAllSemestersQuery(undefined);
-    const [addRegisterSemester] = useAddRegisterSemesterMutation();
-    // console.log();
+    const [addRegisterSemester, { data }] = useAddRegisterSemesterMutation();
+    console.log(data);
 
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+        // console.log(data);
+
+        const semesterData: ISemesterRegistration = {
+            academicSemester: data.academicSemester,
+            startDate : data.startDate,
+            endDate : data.endDate,
+            status : data.status,
+            maxCredit : Number(data.maxCredit),
+            minCredit : Number(data.minCredit),
+        };
+        // console.log(semesterData);
+
         const toastId = toast.loading("Creating academic schedule...");
         try {
-            await addRegisterSemester(data);
+            await addRegisterSemester(semesterData);
             toast.success("Academic schedule created successfully!", { id: toastId });
         } catch (error) {
             toast.error("Failed to create academic schedule!", { id: toastId });
@@ -32,10 +44,8 @@ const SemesterRegistration = () => {
     }));
 
 
-    const dateFormat = 'YYYY/MM/DD';
-
     return (
-        <PHForm onSubmit={onSubmit}>
+        <PHForm onSubmit={onSubmit} key={'semester-registration'}>
             <h1 style={{ textAlign: "center" }}>Create Academic Schedule</h1>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                 <PHSelect
