@@ -5,6 +5,7 @@ import CreateAcademicDepartment from "../pages/admin/academicManagement/CreateAc
 import CreateAcademicFaculty from "../pages/admin/academicManagement/CreateAcademicFaculty";
 import CreateAcademicSemester from "../pages/admin/academicManagement/CreateAcademicSemester";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import SemesterRegistration from "../pages/admin/courseManagement/SemesterRegistration";
 import AdminData from "../pages/admin/userManagement/AdminData";
 import CreateAdmin from "../pages/admin/userManagement/CreateAdmin";
 import CreateFaculty from "../pages/admin/userManagement/CreateFaculty";
@@ -101,5 +102,20 @@ export const adminPaths: TUserPath[] = [
             }
             
         ],
+    },
+    {
+        name: "Course Management",
+        children: [
+            {
+                name : 'Courses',
+                path : 'courses',
+                element : <></>
+            },
+            {
+                name : 'Semester Registration',
+                path : 'semester-registration',
+                element : <SemesterRegistration />
+            }
+        ]
     },
 ];
