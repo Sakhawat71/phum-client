@@ -3,12 +3,13 @@ import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
+        
         getRegisterSemester: builder.query({
             query: () => ({
                 url: '/semester-registrations',
                 method: 'GET'
-            })
+            }),
+            providesTags : ['semester']
         }),
 
         addRegisterSemester: builder.mutation({
@@ -20,14 +21,12 @@ const courseManagementApi = baseApi.injectEndpoints({
         }),
 
         updateRegisterSemester: builder.mutation({
-            query: ({ id, update }) => {
-                console.log(id,update);
-                return {
-                    url: `/semester-registrations/${id}`,
-                    method: 'PATCH',
-                    body: update,
-                }
-            }
+            query: ({ id, update }) => ({
+                url: `/semester-registrations/${id}`,
+                method: 'PATCH',
+                body: update,
+            }),
+            invalidatesTags : ['semester']
         }),
 
 

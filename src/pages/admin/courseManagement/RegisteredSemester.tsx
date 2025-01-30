@@ -1,11 +1,11 @@
 import { Table, Space, Button, message, Dropdown, Menu } from "antd";
 import { useGetRegisterSemesterQuery, useUpdateRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { toast } from "sonner";
 
 const RegisteredSemester = () => {
-    
-    const { data: semestersData, isLoading, error, refetch } = useGetRegisterSemesterQuery(undefined);
+
+    const { data: semestersData, isLoading, error } = useGetRegisterSemesterQuery(undefined);
     const [updateRegisterSemester] = useUpdateRegisterSemesterMutation();
     const semesters = semestersData?.data;
 
@@ -22,11 +22,11 @@ const RegisteredSemester = () => {
 
         try {
             await updateRegisterSemester({ id, update }).unwrap();
-            toast.success('Semester updated successfully',{id : toastId})
-            refetch()
-        } catch (error) {
-            // console.log(error?.data?.message);
-            toast.error(error?.data?.message, { id: toastId })
+            toast.success('Semester updated successfully', { id: toastId })
+            // refetch()
+        } catch (err: any) {
+            // console.log(err?.data?.message);
+            toast.error(err?.data?.message || 'An error occurred', { id: toastId })
         }
     };
 
@@ -94,7 +94,6 @@ const RegisteredSemester = () => {
                         <Dropdown overlay={menu} trigger={["click"]}>
                             <Button type="primary" icon={<EditOutlined />}>Update</Button>
                         </Dropdown>
-                        <Button danger icon={<DeleteOutlined />}>Delete</Button>
                     </Space>
                 );
             },
