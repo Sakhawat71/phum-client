@@ -3,14 +3,14 @@ import PHForm from "../../../components/form/PHform";
 import PHInput from "../../../components/form/PHinput";
 import PHSelect from "../../../components/form/PHSelect";
 import { toast } from "sonner";
-import { useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useAddCourseMutation, useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
 import { ICourse } from "../../../types/courseManagement.type";
 
 
 
 const CreateCourse = () => {
     const { data: coursesData } = useGetCoursesQuery(undefined);
-    // const [createCourse] = useCreateCourseMutation();
+    const [addCourse] = useAddCourseMutation();
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const courseData = {
@@ -27,14 +27,14 @@ const CreateCourse = () => {
 
         // const toastId = toast.loading("Creating course...");
         // try {
-        //     await createCourse(courseData);
+        //     await addCourse(courseData);
         //     toast.success("Course created successfully!", { id: toastId });
         // } catch (error) {
         //     toast.error("Failed to create course!", { id: toastId });
         // }
     };
 
-    const courseOptions = coursesData?.data?.map((course : ICourse) => ({
+    const courseOptions = coursesData?.data?.map((course: ICourse) => ({
         value: course._id,
         label: `${course.prefix}-${course.code} ${course.title}`,
     }));
