@@ -1,16 +1,35 @@
-import { Table, Space, Button, message } from "antd";
-import { useGetRegisterSemesterQuery } from "../../../redux/features/admin/courseManagement.api";
+import { Table, Space, Button, message, Dropdown, Menu } from "antd";
+import { useGetRegisterSemesterQuery, useUpdateRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { toast } from "sonner";
 
 const RegisteredSemester = () => {
-    const { data: semestersData, isLoading, error } = useGetRegisterSemesterQuery(undefined);
-
+    
+    const { data: semestersData, isLoading, error, refetch } = useGetRegisterSemesterQuery(undefined);
+    const [updateRegisterSemester] = useUpdateRegisterSemesterMutation();
     const semesters = semestersData?.data;
-    console.log(semesters);
+
 
     if (error) {
         message.error("Failed to fetch registered semesters.");
     }
+
+    const handleStatusUpdate = async (record: any, newStatus: string) => {
+
+        const toastId = toast.loading('Semester status updating...')
+        const id = record._id;
+        const update = { status: newStatus };
+
+        try {
+            await updateRegisterSemester({ id, update }).unwrap();
+            toast.success('Semester updated successfully',{id : toastId})
+            refetch()
+        } catch (error) {
+            // console.log(error?.data?.message);
+            toast.error(error?.data?.message, { id: toastId })
+        }
+    };
+
 
     const columns = [
         {
@@ -58,17 +77,28 @@ const RegisteredSemester = () => {
         {
             title: "Actions",
             key: "actions",
-            render: () => (
-                <Space>
-                    <Button type="primary" icon={<EditOutlined />}>
-                        Update
-                    </Button>
-                    <Button danger icon={<DeleteOutlined />}>
-                        Delete
-                    </Button>
-                </Space>
-            ),
-        },
+            render: (record: any) => {
+                const menu = (
+                    <Menu
+                        onClick={({ key }) => handleStatusUpdate(record, key)}
+                        items={[
+                            { label: "Ongoing", key: "ONGOING" },
+                            { label: "Upcoming", key: "UPCOMING" },
+                            { label: "Ended", key: "ENDED" },
+                        ]}
+                    />
+                );
+
+                return (
+                    <Space>
+                        <Dropdown overlay={menu} trigger={["click"]}>
+                            <Button type="primary" icon={<EditOutlined />}>Update</Button>
+                        </Dropdown>
+                        <Button danger icon={<DeleteOutlined />}>Delete</Button>
+                    </Space>
+                );
+            },
+        }
     ];
 
     return (
