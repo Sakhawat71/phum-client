@@ -1,11 +1,12 @@
 import { Table, Space, Button, message, Modal } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-import { useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useAssignFaacultyMutation, useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
 import PHSelect from "../../../components/form/PHSelect";
 import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
 import { useState } from "react";
 import PHForm from "../../../components/form/PHform";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 const Courses = () => {
     const { data: coursesData, isLoading, error, refetch } = useGetCoursesQuery(undefined);
@@ -76,10 +77,10 @@ const Courses = () => {
 
             {/* Assign Faculty Modal */}
             {selectedCourse && (
-                <AddFacultyModal 
-                    courseId={selectedCourse} 
-                    onClose={closeAssignFacultyModal} 
-                    refetch={refetch} 
+                <AddFacultyModal
+                    courseId={selectedCourse}
+                    onClose={closeAssignFacultyModal}
+                    refetch={refetch}
                 />
             )}
         </>
@@ -96,26 +97,27 @@ const AddFacultyModal = ({
     refetch: () => void;
 }) => {
     const { data: facultyData } = useGetFacultiesQuery(undefined);
+    const [assignFaaculty] = useAssignFaacultyMutation();
 
-    const facultyOptions = facultyData?.data?.map((faculty) => ({
+
+    const facultyOptions = facultyData?.data?.map((faculty: any) => ({
         value: faculty._id,
         label: `${faculty.fullName} (${faculty?.academicFaculty?.name})`,
     }));
-    
-    // console.log(facultyData?.data);
-    // console.log(facultyOptions);
+
 
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        // console.log("Assigning faculty:", data.faculties, "to course:", courseId);
-        
-        
-        // Here, you would call your API to assign the faculty to the course.
-        
-        
-        console.log(data);
+        const toastId = toast.loading('Assigning faculty')
+        try {
+            const res = await assignFaaculty({ courseId, data })
+            toast.success('Faculty assigned successfully', {id: toastId})
+            console.log(res);
+        } catch (error) {
+            toast.error('Failed to Assign faculty',{id: toastId})
+        }
 
-        message.success(`Faculty assigned successfully to course ID: ${courseId}`);
+        // message.success(`Faculty assigned successfully to course ID: ${courseId}`);
         onClose(); // Close modal after submission
         refetch(); // Refresh course data
     };
