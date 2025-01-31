@@ -7,6 +7,8 @@ import CreateAcademicSemester from "../pages/admin/academicManagement/CreateAcad
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Courses from "../pages/admin/courseManagement/Courses";
 import CreateCourse from "../pages/admin/courseManagement/CreateCourse";
+import CreateOfferedCourse from "../pages/admin/courseManagement/CreateOfferedCourse";
+import OfferedCourses from "../pages/admin/courseManagement/OfferedCourses";
 import RegisteredSemester from "../pages/admin/courseManagement/RegisteredSemester";
 import SemesterRegistration from "../pages/admin/courseManagement/SemesterRegistration";
 import AdminData from "../pages/admin/userManagement/AdminData";
@@ -122,12 +124,22 @@ export const adminPaths: TUserPath[] = [
             {
                 name: 'Courses',
                 path: 'courses',
-                element: <Courses/>
+                element: <Courses />
             },
             {
                 name: 'Create Course',
                 path: 'create-course',
-                element: <CreateCourse/>
+                element: <CreateCourse />
+            },
+            {
+                name: 'Offered Course',
+                path: 'offered-course',
+                element: <OfferedCourses />
+            },
+            {
+                name: 'Create Offered Course',
+                path: 'create-offered-course',
+                element: <CreateOfferedCourse />
             },
         ]
     },
