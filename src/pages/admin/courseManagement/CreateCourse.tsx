@@ -20,18 +20,19 @@ const CreateCourse = () => {
             credits: Number(data.credits),
             preRequisiteCourses: data.preRequisiteCourses.map((courseId: string) => ({
                 course: courseId,
+                isDeleted : false,
             })),
         };
 
-        console.log(courseData);
+        // console.log(courseData);
 
-        // const toastId = toast.loading("Creating course...");
-        // try {
-        //     await addCourse(courseData);
-        //     toast.success("Course created successfully!", { id: toastId });
-        // } catch (error) {
-        //     toast.error("Failed to create course!", { id: toastId });
-        // }
+        const toastId = toast.loading("Creating course...");
+        try {
+            await addCourse(courseData);
+            toast.success("Course created successfully!", { id: toastId });
+        } catch (error) {
+            toast.error("Failed to create course!", { id: toastId });
+        }
     };
 
     const courseOptions = coursesData?.data?.map((course: ICourse) => ({
