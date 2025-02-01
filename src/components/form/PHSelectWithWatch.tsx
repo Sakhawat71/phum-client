@@ -12,8 +12,9 @@ type TSelectProps = {
 
 const PHSelectWithWatch = ({ name, label, options, placeholder, disabled, mode }: TSelectProps) => {
     const { control, formState: { errors } } = useFormContext();
+    const selectedValue = useWatch({ control, name });
 
-    const watch = useWatch() // here 
+    console.log(`Selected value for ${name}:`, selectedValue); // Debugging
 
     return (
         <div style={{ marginBottom: '20px' }}>

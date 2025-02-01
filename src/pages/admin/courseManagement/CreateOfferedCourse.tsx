@@ -7,6 +7,7 @@ import { useGetFacultiesQuery } from "../../../redux/features/admin/userManageme
 import PHForm from "../../../components/form/PHform";
 import PHInput from "../../../components/form/PHinput";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import PHSelectWithWatch from "../../../components/form/PHSelectWithWatch";
 
 const CreateOfferedCourse = () => {
     const { data: coursesData } = useGetCoursesQuery(undefined);
@@ -23,10 +24,10 @@ const CreateOfferedCourse = () => {
         label: faculty.name,
     }));
 
-    // const semesterOptions = semesterData?.data?.map((semester) => ({
-    //     value: semester._id,
-    //     label: semester.name,
-    // }));
+    const semesterOptions = semesterData?.data?.map((semester) => ({
+        value: semester._id,
+        label: `${semester.name} ${semester.year}`,
+    }));
 
     const daysOptions = [
         { value: "Mon", label: "Monday" },
@@ -54,11 +55,11 @@ const CreateOfferedCourse = () => {
                 <PHSelect
                     name="semesterRegistration"
                     label="Semester"
-                    // options={semesterOptions || []}
+                    options={semesterOptions || []}
                     placeholder="Select Semester"
                 />
 
-                <PHSelect
+                <PHSelectWithWatch
                     name="course"
                     label="Course"
                     options={courseOptions || []}
