@@ -3,7 +3,7 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-fo
 
 type TFormProps = {
     onSubmit: SubmitHandler<FieldValues>,
-    children: ReactNode,
+    children?: ReactNode,
     resolver?: any,
     defaultValues?: FieldValues
 }

@@ -1,5 +1,6 @@
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { Select } from "antd";
+import { useEffect } from "react";
 
 type TSelectProps = {
     name: string;
@@ -8,13 +9,31 @@ type TSelectProps = {
     placeholder?: string;
     disabled?: boolean;
     mode?: "multiple" | "tags";
+    onValueChange: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const PHSelectWithWatch = ({ name, label, options, placeholder, disabled, mode }: TSelectProps) => {
-    const { control, formState: { errors } } = useFormContext();
-    const selectedValue = useWatch({ control, name });
+const PHSelectWithWatch = ({
+    name,
+    label,
+    options,
+    placeholder,
+    disabled,
+    mode,
+    onValueChange,
+}: TSelectProps) => {
 
-    console.log(`Selected value for ${name}:`, selectedValue); // Debugging
+    const { control, formState: { errors } } = useFormContext();
+    const selectedValue = useWatch({
+        control,
+        name
+    });
+
+    useEffect(() => {
+        onValueChange(selectedValue)
+    }, [selectedValue])
+
+
+    // console.log(`Selected value for ${name}:`, selectedValue); // Debugging
 
     return (
         <div style={{ marginBottom: '20px' }}>
