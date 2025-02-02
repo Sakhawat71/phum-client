@@ -71,7 +71,9 @@ const CreateOfferedCourse = () => {
         };
         console.log("Submitted Data:", formattedData);
     };
+    
 
+    
     return (
         <PHForm onSubmit={onSubmit}>
             <h1 style={{ textAlign: "center" }}>Create Offered Course</h1>
@@ -99,14 +101,36 @@ const CreateOfferedCourse = () => {
                 />
 
                 {/* Course Selection (Filtered by Department) */}
-                <PHSelect name="course" label="Course" options={courseOptions || []} placeholder="Select Course" />
+                <PHSelect
+                    name="course"
+                    label="Course"
+                    options={courseOptions || []}
+                    placeholder="Select Course"
+                />
 
                 {/* Section & Capacity */}
-                <PHInput label="Section" name="section" type="number" placeholder="Enter Section Number" />
-                <PHInput label="Max Capacity" name="maxCapacity" type="number" placeholder="Enter Maximum Capacity" />
+                <PHInput
+                    label="Section"
+                    name="section"
+                    type="number"
+                    placeholder="Enter Section Number"
+                />
+
+                <PHInput
+                    label="Max Capacity"
+                    name="maxCapacity"
+                    type="number"
+                    placeholder="Enter Maximum Capacity"
+                />
 
                 {/* Days Selection */}
-                <PHSelect name="days" mode="multiple" label="Days" options={daysOptions} placeholder="Select Days" />
+                <PHSelect
+                    name="days"
+                    mode="multiple"
+                    label="Days"
+                    options={daysOptions}
+                    placeholder="Select Days"
+                />
 
                 {/* Time Selection (Start & End Time) */}
                 <PHTimePicker

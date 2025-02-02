@@ -6,36 +6,31 @@ import { routeGenerator } from "../utils/routeGenerator";
 import { adminPaths } from "./admin.route";
 import { facultyPaths } from "./faculty.route";
 import { studentPaths } from "./student.route";
+import ErrorPage from "../pages/ErrorPage";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        // children: [
-        //     {
-        //         path: 'about',
-        //         element: <About />
-        //     },
-        //     {
-        //         path: 'contact',
-        //         element: <Contact />
-        //     }
-        // ]
+        errorElement : <ErrorPage />,
     },
     {
         path: '/admin',
         element: <App />,
+        errorElement :<ErrorPage /> ,
         children: routeGenerator(adminPaths)
     },
     {
         path: '/faculty',
         element: <App />,
+        errorElement :<ErrorPage /> ,
         children: routeGenerator(facultyPaths)
     },
     {
         path: '/student',
         element: <App />,
+        errorElement :<ErrorPage /> ,
         children: routeGenerator(studentPaths)
     },
     {
