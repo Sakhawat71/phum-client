@@ -1,5 +1,4 @@
-import { FieldValues, SubmitHandler, Controller, useWatch } from "react-hook-form";
-import { TimePicker } from "antd";
+import { SubmitHandler } from "react-hook-form";
 import dayjs from "dayjs";
 import PHSelect from "../../../components/form/PHSelect";
 import PHForm from "../../../components/form/PHform";
@@ -13,6 +12,7 @@ import {
 } from "../../../redux/features/admin/academicManagement.api";
 import { ICourse, IOfferedCourse } from "../../../types/courseManagement.type";
 import { useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import PHTimePicker from "../../../components/form/PHTimePiceker";
 
 const CreateOfferedCourse = () => {
     const [selectedFaculty, setSelectedFaculty] = useState("");
@@ -109,14 +109,18 @@ const CreateOfferedCourse = () => {
                 <PHSelect name="days" mode="multiple" label="Days" options={daysOptions} placeholder="Select Days" />
 
                 {/* Time Selection (Start & End Time) */}
-                <Controller
+                <PHTimePicker
                     name="startTime"
-                    render={({ field }) => <TimePicker {...field} format="HH:mm" placeholder="Start Time" />}
+                    label="Start Time"
+                    placeholder="Start Time"
                 />
-                <Controller
+
+                <PHTimePicker
                     name="endTime"
-                    render={({ field }) => <TimePicker {...field} format="HH:mm" placeholder="End Time" />}
+                    label="End Time"
+                    placeholder="End Time"
                 />
+
             </div>
         </PHForm>
     );
