@@ -19,7 +19,7 @@ const Login = () => {
 
     const [login] = useLoginMutation();
 
-    const onSubmit = async (data : FieldValues) => {
+    const onSubmit = async (data: FieldValues) => {
 
         const toastId = toast.loading('logged in...');
 
@@ -29,15 +29,21 @@ const Login = () => {
                 password: data.password,
             };
             const res = await login(userInfo).unwrap();
-            // console.log('redux data =>', res.data);
+            console.log('redux data =>', res.data);
 
             const userData = verifytoken(res.data.accessToken) as TUser;
             dispatch(setUser({
                 user: userData,
                 token: res.data.accessToken
             }));
-            navigate(`/${userData.role}/dashboard`);
-            toast.success('login successful', { id: toastId, duration: 2000})
+
+            if (res?.data?.needPasswrodChange) {
+                // console.log('needPasswrodChange');
+                navigate('/change-password')
+            } else {
+                navigate(`/${userData.role}/dashboard`);
+            }
+            toast.success('login successful', { id: toastId, duration: 2000 })
         } catch (error) {
             toast.error('Something went wrong', { id: toastId, duration: 2000 });
         }
@@ -58,7 +64,7 @@ const Login = () => {
                         {...register("id", { required: "Id is required" })}
                         style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px" }}
                     />
-                    {errors.id && <p style={{ color: "red" }}>{errors.id.message}</p>}
+                    {errors.id && <p style={{ color: "red" }}>{String(errors.id.message)}</p>}
                 </div>
 
                 {/* Password Input */}
@@ -70,7 +76,7 @@ const Login = () => {
                         {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters long" } })}
                         style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px" }}
                     />
-                    {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+                    {errors.password && <p style={{ color: "red" }}>{String(errors.password.message)}</p>}
                 </div>
 
                 {/* Submit Button */}

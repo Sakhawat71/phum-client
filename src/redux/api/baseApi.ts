@@ -27,15 +27,21 @@ const BaseQueryWithRefreshToken: BaseQueryFn<
     extraOptions
 ): Promise<any> => {
         let result = await baseQuery(args, api, extraOptions);
+
         if(result?.error?.status === 404){
-            // toast.error(result?.error?.data?.message)
             const errorMessage = (result.error.data as { message?: string })?.message;
             if (errorMessage) {
                 toast.error(errorMessage);
             }
         }
-        if (result?.error?.status === 401) {
+        if(result?.error?.status === 403){
+            const errorMessage = (result.error.data as { message?: string })?.message;
+            if (errorMessage) {
+                toast.error(errorMessage);
+            }
+        }
 
+        if (result?.error?.status === 401) {
             const res = await fetch('/auth/refresh-token', {
                 method: 'POST',
                 credentials: 'include'

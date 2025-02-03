@@ -66,7 +66,16 @@ const userManagementApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             })
-        })
+        }),
+
+        // change password
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: '/auth/change-password',
+                method: 'POST',
+                body: data,
+            })
+        }),
 
     }),
 });
@@ -81,4 +90,5 @@ export const {
     useAddAdminMutation,
     useGetFacultiesQuery,
     useAddFacultryMutation,
+    useChangePasswordMutation,
 } = userManagementApi;
