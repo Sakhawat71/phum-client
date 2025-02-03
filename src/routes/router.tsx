@@ -7,30 +7,43 @@ import { adminPaths } from "./admin.route";
 import { facultyPaths } from "./faculty.route";
 import { studentPaths } from "./student.route";
 import ErrorPage from "../pages/ErrorPage";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        errorElement : <ErrorPage />,
+        errorElement: <ErrorPage />,
     },
     {
         path: '/admin',
-        element: <App />,
-        errorElement :<ErrorPage /> ,
+        element: (
+            <ProtectedRoute role="admin" >
+                <App />
+            </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
         children: routeGenerator(adminPaths)
     },
     {
         path: '/faculty',
-        element: <App />,
-        errorElement :<ErrorPage /> ,
+        element: (
+            <ProtectedRoute role="faculty" >
+                <App />
+            </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
         children: routeGenerator(facultyPaths)
     },
     {
         path: '/student',
-        element: <App />,
-        errorElement :<ErrorPage /> ,
+        element: (
+            <ProtectedRoute role="student" >
+                <App />
+            </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
         children: routeGenerator(studentPaths)
     },
     {

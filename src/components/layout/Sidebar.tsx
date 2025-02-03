@@ -25,7 +25,7 @@ const Sidebar = () => {
 
     let slidBarItems;
 
-    switch ((user as TUser)?.role ) {
+    switch ((user as TUser)?.role) {
         case userRole.ADMIN:
             slidBarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
             break;
@@ -63,7 +63,12 @@ const Sidebar = () => {
             >
                 <h1>PH Uni</h1>
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={slidBarItems} />
+            <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={['4']}
+                items={slidBarItems}
+            />
         </Sider>
     );
 };
