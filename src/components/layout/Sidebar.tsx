@@ -5,7 +5,8 @@ import { adminPaths } from "../../routes/admin.route";
 import { facultyPaths } from "../../routes/faculty.route";
 import { studentPaths } from "../../routes/student.route";
 import { useAppSelector } from "../../redux/hooks";
-import { useCurrentUser } from "../../redux/features/auth/authSlice";
+import { TUser, useCurrentToken } from "../../redux/features/auth/authSlice";
+import { verifytoken } from "../../utils/verifyToken";
 
 const userRole = {
     ADMIN: 'admin',
@@ -14,10 +15,17 @@ const userRole = {
 };
 
 const Sidebar = () => {
-    const user = useAppSelector(useCurrentUser);
+    let user;
+    // const user = useAppSelector(useCurrentUser);
+    const token = useAppSelector(useCurrentToken);
+
+    if (token) {
+        user = verifytoken(token);
+    }
+
     let slidBarItems;
 
-    switch (user?.role) {
+    switch ((user as TUser)?.role ) {
         case userRole.ADMIN:
             slidBarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
             break;
