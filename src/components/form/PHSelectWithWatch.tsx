@@ -1,6 +1,6 @@
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { Select } from "antd";
 import { useEffect } from "react";
+import { Select } from "antd";
 
 type TSelectProps = {
     name: string;

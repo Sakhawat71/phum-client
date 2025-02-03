@@ -8,25 +8,50 @@ import { useState } from "react";
 import {
     useGetAcademicDepartmentQuery,
     useGetAcademicFacultiesQuery,
-    useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagement.api";
 import { ICourse, IOfferedCourse } from "../../../types/courseManagement.type";
-import { useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useGetCoursesQuery, useGetRegisterSemesterQuery } from "../../../redux/features/admin/courseManagement.api";
 import PHTimePicker from "../../../components/form/PHTimePiceker";
+import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
+
+
+
+
 
 const CreateOfferedCourse = () => {
-    const [selectedFaculty, setSelectedFaculty] = useState("");
-    const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [courseId, setCourseId] = useState("");
 
-    const { data: coursesData } = useGetCoursesQuery(undefined);
-    const { data: academicFacultyData } = useGetAcademicFacultiesQuery(undefined);
+    const { data: registeredSemesterData } = useGetRegisterSemesterQuery([
+        { name: 'sort', value: 'year' },
+        { name: 'status', value: 'UPCOMING' },
+      ]);
     const { data: academicDepartmentData } = useGetAcademicDepartmentQuery(undefined);
-    const { data: semesterData } = useGetAllSemestersQuery(undefined);
+    const { data: academicFacultyData } = useGetAcademicFacultiesQuery(undefined);
+    const { data: coursesData } = useGetCoursesQuery(undefined);
+    const {data : facultyData} = useGetFacultiesQuery(undefined)
+
+
+    console.log(facultyData?.data);
+
+
+
+
+
+
+
 
     // Semester Options
-    const semesterOptions = semesterData?.data?.map((semester) => ({
-        value: semester._id,
-        label: `${semester.name} ${semester.year}`,
+    const registerdSemesterOptions = registeredSemesterData?.data?.map((semester) => (
+        {
+            value: semester._id,
+            label: `${semester.academicSemester.name} ${semester.academicSemester.year}`,
+        }
+    ));
+
+    // Filtered Department Options
+    const departmentOptions = academicDepartmentData?.data?.map((dept) => ({
+        value: dept._id,
+        label: dept.name,
     }));
 
     // Faculty Options
@@ -35,21 +60,31 @@ const CreateOfferedCourse = () => {
         label: faculty.name,
     }));
 
-    // Filtered Department Options (Based on Faculty)
-    const departmentOptions = academicDepartmentData?.data
-        ?.filter((dept) => dept.academicFaculty === selectedFaculty)
-        .map((dept) => ({
-            value: dept._id,
-            label: dept.name,
-        }));
-
-    // Filtered Course Options (Based on Department)
-    const courseOptions = coursesData?.data
-        ?.filter((course: ICourse) => course.academicDepartment === selectedDepartment)
-        .map((course) => ({
+    // Filtered Course Options
+    const courseOptions = coursesData?.data?.map((course : ICourse) => (
+        {
             value: course._id,
-            label: `${course.prefix} ${course.code} - ${course.title}`,
-        }));
+            label: `${course.prefix}-${course.code} ${course.title}`,
+        }
+    ));
+
+
+
+    console.log(courseId);
+    console.log(courseOptions);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Days Options
     const daysOptions = [
@@ -62,6 +97,17 @@ const CreateOfferedCourse = () => {
         { value: "Sun", label: "Sunday" },
     ];
 
+
+
+
+
+
+
+
+
+
+
+
     // Form Submission
     const onSubmit: SubmitHandler<IOfferedCourse> = async (data) => {
         const formattedData = {
@@ -71,41 +117,58 @@ const CreateOfferedCourse = () => {
         };
         console.log("Submitted Data:", formattedData);
     };
-    
 
-    
+
+
     return (
         <PHForm onSubmit={onSubmit}>
             <h1 style={{ textAlign: "center" }}>Create Offered Course</h1>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                {/* Semester Selection */}
-                <PHSelect name="semesterRegistration" label="Semester" options={semesterOptions || []} placeholder="Select Semester" />
 
-                {/* Faculty Selection (Watch Changes) */}
-                <PHSelectWithWatch
-                    onValueChange={setSelectedFaculty}
-                    name="academicFaculty"
-                    label="Academic Faculty"
-                    options={facultyOptions || []}
-                    placeholder="Select Faculty"
+
+                {/* Semester Selection */}
+                <PHSelect
+                    name="semesterRegistration"
+                    label="Registered Semester"
+                    options={registerdSemesterOptions || []}
+                    placeholder="Select Semester"
                 />
 
+
                 {/* Department Selection (Filtered by Faculty) */}
-                <PHSelectWithWatch
-                    onValueChange={setSelectedDepartment}
+                <PHSelect
                     name="academicDepartment"
                     label="Academic Department"
                     options={departmentOptions || []}
                     placeholder="Select Department"
                 />
 
-                {/* Course Selection (Filtered by Department) */}
+
+                {/* Faculty Selection (Watch Changes) */}
                 <PHSelect
+                    name="academicFaculty"
+                    label="Academic Faculty"
+                    options={facultyOptions || []}
+                    placeholder="Select Faculty"
+                />
+
+
+
+                {/* Course Selection (Filtered by Department) */}
+                <PHSelectWithWatch
+                    onValueChange={setCourseId}
                     name="course"
                     label="Course"
                     options={courseOptions || []}
                     placeholder="Select Course"
+                />
+
+                <PHSelect
+                disabled={!courseId}
+                name="faculty"
+                label="Faculty"
+                placeholder="Select Faculty"
                 />
 
                 {/* Section & Capacity */}
