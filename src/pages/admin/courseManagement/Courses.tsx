@@ -1,6 +1,6 @@
 import { Table, Space, Button, message, Modal } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-import { useAssignFaacultyMutation, useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import {useAssignFacultyMutation, useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
 import PHSelect from "../../../components/form/PHSelect";
 import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
 import { useState } from "react";
@@ -97,7 +97,7 @@ const AddFacultyModal = ({
     refetch: () => void;
 }) => {
     const { data: facultyData } = useGetFacultiesQuery(undefined);
-    const [assignFaaculty] = useAssignFaacultyMutation();
+    const [assignFaaculty] = useAssignFacultyMutation();
 
 
     const facultyOptions = facultyData?.data?.map((faculty: any) => ({
