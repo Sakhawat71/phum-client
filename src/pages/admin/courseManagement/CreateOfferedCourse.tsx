@@ -1,5 +1,4 @@
 import { SubmitHandler } from "react-hook-form";
-import dayjs from "dayjs";
 import PHSelect from "../../../components/form/PHSelect";
 import PHForm from "../../../components/form/PHform";
 import PHInput from "../../../components/form/PHinput";
@@ -15,10 +14,12 @@ import {
     IOfferedCourse
 } from "../../../types/courseManagement.type";
 import {
+    useCreateOfferedCourseMutation,
     useGetAssignFacultiesQuery,
     useGetCoursesQuery,
     useGetRegisterSemesterQuery
 } from "../../../redux/features/admin/courseManagement.api";
+import { toast } from "sonner";
 
 
 
@@ -37,9 +38,9 @@ const CreateOfferedCourse = () => {
     const {
         data: assignedFacultyData,
         isFetching: assignedfacultyFetching,
-        refetch,
-    } = useGetAssignFacultiesQuery({ course: courseId }, { skip: !courseId});
+    } = useGetAssignFacultiesQuery({ course: courseId }, { skip: !courseId });
 
+    const [addOfferedCourse] = useCreateOfferedCourseMutation();
 
     // console.log(assignedFacultyData?.data[0]?.faculties);
 
@@ -47,7 +48,7 @@ const CreateOfferedCourse = () => {
 
 
     // Semester Options
-    const registerdSemesterOptions = registeredSemesterData?.data?.map((semester) => (
+    const registerdSemesterOptions = registeredSemesterData?.data?.map((semester: { _id: string; academicSemester: { name: string; year: number; }; }) => (
         {
             value: semester._id,
             label: `${semester.academicSemester.name} ${semester.academicSemester.year}`,
@@ -74,8 +75,8 @@ const CreateOfferedCourse = () => {
         }
     ));
 
-    // 
-    const facultyOptions = assignedFacultyData?.data[0]?.faculties?.map((faculty) => ({
+    // faculty Options
+    const facultyOptions = assignedFacultyData?.data[0]?.faculties?.map((faculty: { _id: string; fullName: string; }) => ({
         value: faculty._id,
         label: faculty?.fullName
     }));
@@ -101,18 +102,26 @@ const CreateOfferedCourse = () => {
     const onSubmit: SubmitHandler<IOfferedCourse> = async (data) => {
         const formattedData = {
             ...data,
-            section : Number(data.section),
-            maxCapacity : Number(data.maxCapacity),
-            startTime: dayjs(data.startTime).format("HH:mm"),
-            endTime: dayjs(data.endTime).format("HH:mm"),
+            section: Number(data.section),
+            maxCapacity: Number(data.maxCapacity),
         };
-        console.log("Submitted Data:", formattedData);
+        // console.log("Submitted Data:", formattedData);
+
+
+        const toastId = toast.loading("Creating academic schedule...");
+        try {
+            await addOfferedCourse(formattedData);
+            // console.log(res);
+            toast.success("Academic schedule created successfully!", { id: toastId });
+        } catch (error) {
+            toast.error("Failed to create academic schedule!", { id: toastId });
+        }
     };
 
 
 
     return (
-        <PHForm onSubmit={onSubmit}>
+        <PHForm onSubmit={onSubmit} key={'Create-Offered-Course'}>
             <h1 style={{ textAlign: "center" }}>Create Offered Course</h1>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
@@ -206,120 +215,3 @@ const CreateOfferedCourse = () => {
 };
 
 export default CreateOfferedCourse;
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { FieldValues, SubmitHandler } from "react-hook-form";
-// import { TimePicker } from "antd";
-// import dayjs from "dayjs";
-// import PHSelect from "../../../components/form/PHSelect";
-// import { useGetCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
-// import PHForm from "../../../components/form/PHform";
-// import PHInput from "../../../components/form/PHinput";
-// import { useGetAcademicFacultiesQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
-// import PHSelectWithWatch from "../../../components/form/PHSelectWithWatch";
-// import { useState } from "react";
-// import { ICourse, IOfferedCourse } from "../../../types/courseManagement.type";
-
-
-
-// const CreateOfferedCourse = () => {
-
-//     const [id, setId] = useState('');
-//     const { data: coursesData } = useGetCoursesQuery(undefined);
-//     const { data: academicFacultyData } = useGetAcademicFacultiesQuery(undefined);
-//     const { data: semesterData } = useGetAllSemestersQuery(undefined);
-
-//     const courseOptions = coursesData?.data?.map((course : ICourse) => ({
-//         value: course._id,
-//         label: `${course.prefix} ${course.code} - ${course.title}`,
-//     }));
-
-//     const facultyOptions = academicFacultyData?.data?.map((faculty ) => ({
-//         value: faculty._id,
-//         label: faculty.name,
-//     }));
-
-//     const semesterOptions = semesterData?.data?.map((semester) => ({
-//         value: semester._id,
-//         label: `${semester.name} ${semester.year}`,
-//     }));
-
-//     const daysOptions = [
-//         { value: "Mon", label: "Monday" },
-//         { value: "Tue", label: "Tuesday" },
-//         { value: "Wed", label: "Wednesday" },
-//         { value: "Thu", label: "Thursday" },
-//         { value: "Fri", label: "Friday" },
-//         { value: "Sat", label: "Saturday" },
-//         { value: "Sun", label: "Sunday" },
-//     ];
-
-//     const onSubmit: SubmitHandler<IOfferedCourse> = async (data) => {
-//         const formattedData = {
-//             ...data,
-//             startTime: dayjs(data.startTime).format("HH:mm"),
-//             endTime: dayjs(data.endTime).format("HH:mm"),
-//         };
-//         console.log("Submitted Data:", formattedData);
-//     };
-
-//     console.log(id);
-
-//     return (
-//         <PHForm onSubmit={onSubmit}>
-//             <h1 style={{ textAlign: "center" }}>Create Offered Course</h1>
-//             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-//                 <PHSelect
-//                     name="semesterRegistration"
-//                     label="Semester"
-//                     options={semesterOptions || []}
-//                     placeholder="Select Semester"
-//                 />
-
-//                 <PHSelectWithWatch
-//                     onValueChange={setId}
-//                     name="course"
-//                     label="Course"
-//                     options={courseOptions || []}
-//                     placeholder="Select Course"
-//                 />
-
-//                 <PHSelect
-//                     name="academicFaculty"
-//                     label="Academic Faculty"
-//                     options={facultyOptions || []}
-//                     placeholder="Assign Faculty"
-//                 />
-
-//                 <PHInput label="Section" name="section" type="number" placeholder="Enter Section Number" />
-
-//                 <PHInput label="Max Capacity" name="maxCapacity" type="number" placeholder="Enter Maximum Capacity" />
-
-//                 <PHSelect
-//                     name="days"
-//                     mode="multiple"
-//                     label="Days"
-//                     options={daysOptions}
-//                     placeholder="Select Days"
-//                 />
-
-//                 <TimePicker name="startTime" format="HH:mm" placeholder="Start Time" />
-//                 <TimePicker name="endTime" format="HH:mm" placeholder="End Time" />
-
-//             </div>
-//         </PHForm>
-//     );
-// };
-
-// export default CreateOfferedCourse;
