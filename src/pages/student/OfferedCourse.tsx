@@ -1,114 +1,90 @@
-import { useState } from "react";
+import { Button, Col, Row } from 'antd';
 import {
-    Card,
-    Typography,
-    Button,
-    Row,
-    Col,
-    Select,
-    message
-} from "antd";
-import { useEnrollCourseMutation, useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourse.api";
-import { IOfferedCourseForStudents } from "../../types/student.type";
-const { Title, Text } = Typography;
+    useEnrollCourseMutation,
+    useGetAllOfferedCoursesQuery
+} from '../../redux/features/student/studentCourse.api';
+import { toast } from 'sonner';
 
 
-
-
+type TCourse = {
+    [index: string]: any;
+};
 
 const OfferedCourse = () => {
-    const {
-        data: offeredcourses,
-        isLoading
-    } = useGetAllOfferedCoursesQuery(undefined);
-    const [
-        selectedSections,
-        setSelectedSections
-    ] = useState<Record<string, string>>({});
-    const [enrollCourse] = useEnrollCourseMutation();
+    const { data: offeredCourseData } = useGetAllOfferedCoursesQuery(undefined);
+    const [enroll] = useEnrollCourseMutation();
 
-    // console.log(offeredcourses?.data);
-
-
-    const groupedCourses = offeredcourses?.data?.reduce((acc, item: IOfferedCourseForStudents) => {
+    const singleObject = offeredCourseData?.data?.reduce((acc: TCourse, item) => {
         const key = item.course.title;
-        acc[key] = acc[key] || { course: item.course, sections: [] };
-
+        acc[key] = acc[key] || { courseTitle: key, sections: [] };
         acc[key].sections.push({
             section: item.section,
             _id: item._id,
-            maxCapacity: item.maxCapacity,
-            faculty: item.faculty,
             days: item.days,
             startTime: item.startTime,
             endTime: item.endTime,
         });
-
         return acc;
-    }, {} as Record<string, { course: IOfferedCourseForStudents["course"]; sections: any[] }>);
+    }, {});
 
+    const modifiedData = Object.values(singleObject ? singleObject : {});
 
-    const handleSectionChange = (courseId: string, sectionId: string) => {
-        setSelectedSections((prev) => ({ ...prev, [courseId]: sectionId }));
-    };
+    const handleEnroll = async (id : string) => {
+        const enrollData = {
+            offeredCourse: id,
+        };
+        // console.log(enrollData);
 
-    const handleEnroll = (courseId: string) => {
-        if (!selectedSections[courseId]) {
-            message.warning("Please select a section before enrolling.");
-            return;
+        const toastId = toast.loading('Enrolling .... ')
+        try {
+            await enroll(enrollData);
+            // console.log(res);
+            toast.success('course enrolled successfully',{id : toastId})
+        } catch (error) {
+            toast.error(`can't enroll course`, {id : toastId})
         }
-
-        console.log(courseId);
-
-        message.success(`Enrolled in Section ${selectedSections[courseId]} of ${courseId}`);
-
-
-
-
     };
 
-
-
-
-
-    if (isLoading) return <div>Loading courses...</div>;
+    if (!modifiedData.length) {
+        return <p>No available courses</p>;
+    }
 
     return (
-        <div style={{ padding: "20px" }}>
-
-            <Title level={2} style={{ textAlign: "center" }}>Offered Courses</Title>
-
-            <Row gutter={[16, 16]}>
-                {Object.values(groupedCourses || {}).map(({ course, sections }) => (
-                    <Col xs={24} sm={24} md={12} lg={8} key={course._id}>
-                        <Card title={`${course.prefix}-${course.code} ${course.title}`} bordered hoverable>
-                            <Text strong>Sections:</Text>
-
-                            <Select
-                                placeholder="Select a section"
-                                style={{ width: "100%", marginTop: 8 }}
-                                onChange={(value) => handleSectionChange(course._id, value)}
-                            >
-                                {sections.map((section) => (
-                                    <Select.Option key={section._id} value={section.section}>
-                                        Section {section.section} - {section.days.join(", ")} ({section.startTime} - {section.endTime})
-                                    </Select.Option>
-                                ))}
-                            </Select>
-
-                            <Button
-                                type="primary"
-                                block
-                                style={{ marginTop: 10 }}
-                                onClick={() => handleEnroll(course._id)}
-                            >
-                                Enroll
-                            </Button>
-                        </Card>
+        <Row gutter={[0, 20]}>
+            {modifiedData.map((item) => {
+                return (
+                    <Col span={24} style={{ border: 'solid #d4d4d4 2px' }}>
+                        <div style={{ padding: '10px' }}>
+                            <h2>{item.courseTitle}</h2>
+                        </div>
+                        <div>
+                            {item.sections.map((section) => {
+                                return (
+                                    <Row
+                                        justify="space-between"
+                                        align="middle"
+                                        style={{ borderTop: 'solid #d4d4d4 2px', padding: '10px' }}
+                                    >
+                                        <Col span={5}>Section: {section.section} </Col>
+                                        <Col span={5}>
+                                            days:{' '}
+                                            {section.days.map((day) => (
+                                                <span> {day} </span>
+                                            ))}
+                                        </Col>
+                                        <Col span={5}>Start Time: {section.startTime} </Col>
+                                        <Col span={5}>End Time: {section.endTime} </Col>
+                                        <Button onClick={() => handleEnroll(section._id)}>
+                                            Enroll
+                                        </Button>
+                                    </Row>
+                                );
+                            })}
+                        </div>
                     </Col>
-                ))}
-            </Row>
-        </div>
+                );
+            })}
+        </Row>
     );
 };
 
