@@ -1,19 +1,36 @@
 import { useState } from "react";
-import { Card, Typography, Button, Space, Row, Col, Tag, Select, message } from "antd";
-import { useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourse.api";
-import { IOfferedCourse } from "../../types/courseManagement.type";
+import {
+    Card,
+    Typography,
+    Button,
+    Row,
+    Col,
+    Select,
+    message
+} from "antd";
+import { useEnrollCourseMutation, useGetAllOfferedCoursesQuery } from "../../redux/features/student/studentCourse.api";
 import { IOfferedCourseForStudents } from "../../types/student.type";
-
 const { Title, Text } = Typography;
 
+
+
+
+
 const OfferedCourse = () => {
-    const { data: offeredcourses, isLoading } = useGetAllOfferedCoursesQuery(undefined);
-    const [selectedSections, setSelectedSections] = useState<Record<string, string>>({});
+    const {
+        data: offeredcourses,
+        isLoading
+    } = useGetAllOfferedCoursesQuery(undefined);
+    const [
+        selectedSections,
+        setSelectedSections
+    ] = useState<Record<string, string>>({});
+    const [enrollCourse] = useEnrollCourseMutation();
 
     // console.log(offeredcourses?.data);
 
-    
-    const groupedCourses = offeredcourses?.data?.reduce((acc, item : IOfferedCourseForStudents) => {
+
+    const groupedCourses = offeredcourses?.data?.reduce((acc, item: IOfferedCourseForStudents) => {
         const key = item.course.title;
         acc[key] = acc[key] || { course: item.course, sections: [] };
 
@@ -28,7 +45,8 @@ const OfferedCourse = () => {
         });
 
         return acc;
-    }, {} as Record<string, { course: IOfferedCourse["course"]; sections: any[] }>);
+    }, {} as Record<string, { course: IOfferedCourseForStudents["course"]; sections: any[] }>);
+
 
     const handleSectionChange = (courseId: string, sectionId: string) => {
         setSelectedSections((prev) => ({ ...prev, [courseId]: sectionId }));
@@ -40,20 +58,32 @@ const OfferedCourse = () => {
             return;
         }
 
+        console.log(courseId);
+
         message.success(`Enrolled in Section ${selectedSections[courseId]} of ${courseId}`);
-        // Perform enroll action here (API call)
+
+
+
+
     };
+
+
+
+
 
     if (isLoading) return <div>Loading courses...</div>;
 
     return (
         <div style={{ padding: "20px" }}>
+
             <Title level={2} style={{ textAlign: "center" }}>Offered Courses</Title>
+
             <Row gutter={[16, 16]}>
                 {Object.values(groupedCourses || {}).map(({ course, sections }) => (
                     <Col xs={24} sm={24} md={12} lg={8} key={course._id}>
                         <Card title={`${course.prefix}-${course.code} ${course.title}`} bordered hoverable>
                             <Text strong>Sections:</Text>
+
                             <Select
                                 placeholder="Select a section"
                                 style={{ width: "100%", marginTop: 8 }}
@@ -65,6 +95,7 @@ const OfferedCourse = () => {
                                     </Select.Option>
                                 ))}
                             </Select>
+
                             <Button
                                 type="primary"
                                 block
