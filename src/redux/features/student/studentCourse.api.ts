@@ -1,5 +1,5 @@
 import { TResponseRedux } from "../../../types";
-import { IOfferedCourse } from "../../../types/student.type";
+import { IOfferedCourseForStudents } from "../../../types/student.type";
 import { baseApi } from "../../api/baseApi";
 
 
@@ -17,7 +17,7 @@ const studentCourseApi = baseApi.injectEndpoints({
                     params: params,
                 };
             },
-            transformResponse: (response: TResponseRedux<IOfferedCourse[]>) => {
+            transformResponse: (response: TResponseRedux<IOfferedCourseForStudents[]>) => {
                 return {
                     data: response?.data?.result,
                     meta: response?.data?.meta,

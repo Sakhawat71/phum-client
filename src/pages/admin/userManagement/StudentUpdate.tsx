@@ -19,7 +19,7 @@ const UpdateStudent = () => {
     if (isLoading) return <Spin tip="Loading student data..." size="large" />;
 
     const student = studentData?.data;
-    console.log('org data' , student);
+    // console.log('org data' , student);
 
     const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
         const toastId = toast.loading("Updating student profile...");

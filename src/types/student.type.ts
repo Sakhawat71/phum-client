@@ -1,25 +1,25 @@
-export interface IOfferedCourse {
-    _id: string
-    semesterRegistration: string
-    academicSemester: string
-    academicFaculty: string
-    academicDepartment: string
-    course: ICourse
-    faculty: string
-    maxCapacity: number
-    section: number
-    days: string[]
-    startTime: string
-    endTime: string
-    createdAt: string
-    updatedAt: string
-    __v: number
-    enrolledCourses: IEnrolledCourse[]
-    completedCourses: ICompletedCourse[]
-    completedCourseIds: string[]
-    isPreRequisitesFulFilled: boolean
-    isAlreadyEnrolled: boolean
-}
+export interface IOfferedCourseForStudents {
+    _id: string;
+    semesterRegistration: string;
+    academicSemester: string;
+    academicFaculty: string;
+    academicDepartment: string;
+    course: ICourse;
+    faculty: string;
+    maxCapacity: number;
+    section: number;
+    days: string[];
+    startTime: string;
+    endTime: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    enrolledCourses: IEnrolledCourse[];
+    completedCourses: ICompletedCourse[];
+    completedCourseIds: string[];
+    isPreRequisitesFulFilled: boolean;
+    isAlreadyEnrolled: boolean;
+};
 
 export interface ICourse {
     _id: string
