@@ -1,4 +1,5 @@
 import { TResponseRedux } from "../../../types";
+import { IOfferedCourse } from "../../../types/student.type";
 import { baseApi } from "../../api/baseApi";
 
 
@@ -10,17 +11,16 @@ const studentCourseApi = baseApi.injectEndpoints({
             query: () => {
 
                 const params = new URLSearchParams();
-
                 return {
                     url: '/offered-courses/my-offered-courses',
                     method: 'GET',
                     params: params,
                 };
             },
-            transformResponse: (response: TResponseRedux<any>) => {
+            transformResponse: (response: TResponseRedux<IOfferedCourse[]>) => {
                 return {
-                    data: response.data,
-                    meta: response.mete,
+                    data: response?.data?.result,
+                    meta: response?.data?.meta,
                 }
             }
         }),
